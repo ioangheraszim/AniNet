@@ -8,9 +8,9 @@ export default {
     colors: {
       background: "#0B0C2A",
       primary: "#FFFFFF",
-      secondary: "B7B7B7",
-      accent: "070720",
-      red: "E53637"
+      secondary: "#B7B7B7",
+      accent: "#070720",
+      cool: "#E53637"
     },
     fontFamily: {
       mulish: ["Mulish", "sans-serif"],
