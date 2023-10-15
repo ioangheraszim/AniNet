@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 body {
-  @apply font-mulish bg-background;
+  @apply font-mulish bg-background scroll-smooth;
 }
 
 .nav-menu {
