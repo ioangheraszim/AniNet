@@ -26,15 +26,7 @@ Users should be able to:
 - See hover states for all interactive elements on the page 
 - Be able to navigate to different pages 
 - Be able to pass product data to description data page 
-- Be able to render the product data in the cart page ✔️
-- Add items to the Cart ✔️
-- Remove items from the Cart ✔️
-- Render the total items in cart on the Cart bag ✔️
-- Style no items in cart ✔️
-- Add a back to shopping button in cart to go back to products page or home screen ✔️
-- Add some courses in the productsdata file and render them on the courses page ✔️
-- Add a filter to help filter the products and also filter the course types (online/offline) ✔️
-- Search function to help search for products from productsdata file ✔️
+
 ### Screenshot
 
 ## My process

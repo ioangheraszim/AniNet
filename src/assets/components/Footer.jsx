@@ -5,7 +5,7 @@ import { faArrowUp} from '@fortawesome/free-solid-svg-icons'
 function Footer() {
   return (
     <footer className="bg-opacity-80 backdrop-blur-lg bg-accent font-semibold relative mt-5">       
-      <div className="container transition-all duration-300 mx-auto flex flex-col items-center justify-between p-10 md:flex-row">
+      <div className="container transition-all duration-300 mx-auto flex flex-col items-center justify-between md:px-0 p-10 md:flex-row">
         <div className="bg-cool px-5 py-3.5 rounded-full absolute -top-4 md:right-10">
           <a href="#"><FontAwesomeIcon icon={faArrowUp} /></a> 
         </div>
