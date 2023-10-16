@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
 
 function Movies() {
   return (
-    <div>Movies</div>
-  )
+    <div className="container mx-auto">
+      <h1>Latest anime out now!</h1>
+      
+    </div>
+  );
 }
 
-export default Movies
+export default Movies;

@@ -1,34 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-
-function CardComponent() {
-
-  const [getAnime, setGetAnime] = useState([]);
-  
-
+function CardComponent({ title, score, episodes, status, image, year, type }) {
   return (
     <Link
       to="/"
-      className="rounded-lg hover:scale-110 hover:shadow-md hover:shadow-secondary transition-all duration-200"
+      className="rounded-lg hover:scale-110 hover:shadow-md hover:shadow-secondary transition-all duration-200 mt-5 lg:mx-auto lg:w-[232px]"
     >
       <div className="relative">
         <img
-          src="https://images6.alphacoders.com/785/thumb-1920-785425.png"
+          src={image}
           alt="Card 1"
-          className="w-full h-48 object-cover rounded-lg"
+          className="w-full h-48 object-fit rounded-lg"
         />
         <div>
-          <p className="border-2 border-secondary rounded p-1 absolute bottom-2 left-2">Rating: 7.3</p>
-          <p className="border-2 border-secondary rounded p-1 absolute top-2 right-2">2023</p>
-          <p className="border-2 border-cool rounded bg-cool p-1 absolute top-2 left-2">18/?</p>
+          <p className=" bg-opacity-60 backdrop-blur-lg bg-accent rounded p-1 absolute bottom-2 left-2">
+            Rating: {score}
+          </p>
+          <p className="bg-opacity-60 backdrop-blur-lg bg-accent  rounded p-1 absolute top-2 right-2 text-primary">
+            {year}
+          </p>
+          <p className="bg-opacity-60 backdrop-blur-lg border-cool rounded bg-cool p-1 absolute top-2 left-2">
+            {episodes}/{episodes}
+          </p>
         </div>
       </div>
 
       <div className="flex">
-        <p className="px-4 my-4 text-sm bg-gen rounded-lg mx-2">Status</p>
-        <p className="px-4 my-4 text-sm bg-gen rounded-lg mx-2">Movie</p>
+        <p className="px-4 my-4 text-sm bg-gen rounded-lg mx-2">{status}</p>
+        <p className="px-4 my-4 text-sm bg-gen rounded-lg mx-2">{type}</p>
       </div>
-      <h2 className="p-2 font-bold ">Fate Stay Night Unlimited Blade Works</h2>
+      <h2 className="p-2 font-bold ">{title}</h2>
     </Link>
   );
 }
