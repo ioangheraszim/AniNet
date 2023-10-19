@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 
 function Movies() {
   const [currentAnime, setCurrentAnime] = useState([]);
-  const animeID = 3;
-  const apiBaseUrl = `https://api.jikan.moe/v4/anime/${animeID}`;
+  const animeID = 1;
+  const apiBaseUrl = `https://api.jikan.moe/v4/characters/${animeID}/anime`;
+  
 
   const fetchLatestAnime = () => {
     fetch(apiBaseUrl)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data.data)
       })
       .catch((error) => {
         console.error('Error:', error);

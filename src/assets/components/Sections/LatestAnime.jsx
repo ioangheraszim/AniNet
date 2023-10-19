@@ -1,27 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import CardComponent from "./CardComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { AnimeContext } from "../Context/AnimeContext";
 
 function LatestAnime() {
-  const [currentAnime, setCurrentAnime] = useState([]);
-
-  const apiBaseUrl = "https://api.jikan.moe/v4/seasons/now";
-
-  const fetchLatestAnime = () => {
-    fetch(apiBaseUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setCurrentAnime(data.data.slice(0, 9));
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  useEffect(() => {
-    fetchLatestAnime();
-  }, []);
+  const { currentAnime } = useContext(AnimeContext)
 
   return (
     <section className="container mx-auto">

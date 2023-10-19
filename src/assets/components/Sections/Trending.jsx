@@ -1,28 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import CardComponent from "./CardComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { AnimeContext } from "../Context/AnimeContext";
 
 function Trending() {
-  const [topAnime, setTopAnime] = useState([]);
+  const { topAnime } = useContext(AnimeContext);
 
-  const apiBaseUrl = "https://api.jikan.moe/v4/top/anime";
-  const fetchTopAnime = () => {
-    fetch(apiBaseUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setTopAnime(data.data.slice(0, 9));
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
-  useEffect(() => {
-    fetchTopAnime();
-  }, []);
-
+  if (!topAnime) {
+    return <div>Loading...</div>;
+  }
   return (
     <section className="container mx-auto">
       <div className="container md:flex justify-between items-center pr-1 pl-1 m-3">

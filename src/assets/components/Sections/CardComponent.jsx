@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-function CardComponent({ title, score, episodes, status, image, year, type }) {
+function CardComponent({ mal_id, title, score, episodes, status, image, year, type }) {
   return (
     <Link
-      to="/"
+      to={`/details/${mal_id}`}
       className="rounded-lg hover:scale-110 hover:shadow-md hover:shadow-secondary transition-all duration-200 mt-5 lg:mx-auto lg:w-[232px]"
     >
       <div className="relative">
