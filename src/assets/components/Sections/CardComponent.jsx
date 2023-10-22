@@ -4,13 +4,13 @@ function CardComponent({ mal_id, title, score, episodes, status, image, year, ty
   return (
     <Link
       to={`/details/${mal_id}`}
-      className="rounded-lg hover:scale-110 hover:shadow-md hover:shadow-secondary transition-all duration-200 mt-5 lg:mx-auto lg:w-[232px]"
+      className="rounded-lg hover:scale-90 hover:shadow-md hover:shadow-secondary transition-all duration-200 mt-5 lg:mx-auto lg:w-[232px]"
     >
       <div className="relative">
         <img
           src={image}
           alt="Card 1"
-          className="w-full h-48 object-fit rounded-lg"
+          className="object-fit rounded-lg"
         />
         <div>
           <p className=" bg-opacity-60 backdrop-blur-lg bg-accent rounded p-1 absolute bottom-2 left-2">

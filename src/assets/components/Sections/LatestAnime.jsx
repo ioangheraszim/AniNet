@@ -7,6 +7,13 @@ import { AnimeContext } from "../Context/AnimeContext";
 function LatestAnime() {
   const { currentAnime } = useContext(AnimeContext)
 
+  if (!currentAnime) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full border-t-4 border-blue-500 border-b-4 h-12 w-12"></div>
+      </div>
+    );
+  }
   return (
     <section className="container mx-auto">
 
