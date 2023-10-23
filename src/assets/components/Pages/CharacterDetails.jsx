@@ -1,28 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from 'react'
 
-function Movies() {
-  const [characters, setCharacters] = useState([]);
-  const id = 5705;
-  const animeURL = `https://api.jikan.moe/v4/characters/${id}`;
-
-  async function fetchAnimeData() {
-    try {
-      const response = await fetch(animeURL);
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log(data);
-      setCharacters(data);
-    } catch (error) {
-      console.error("There was an error:", error);
-    }
-  }
-
-  useEffect(() => {
-    fetchAnimeData();
-  }, []);
-
+function CharacterDetails() {
   return (
     <section className="container mx-auto">
       <h1 className="text-3xl">Movies</h1>
@@ -42,9 +20,7 @@ function Movies() {
         </div>
       )}
     </section>
-  );
+  )
 }
 
-export default Movies;
-
-{/* <p>{characters.data.about}</p> */}
+export default CharacterDetails

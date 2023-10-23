@@ -6,12 +6,7 @@ import { AnimeContext } from "../Context/AnimeContext";
 import CharacterCard from "../Sections/CharacterCard";
 
 function Details() {
-  const {
-    fullAnime,
-    fetchFullAnime,
-    character,
-    fetchAnimeCharacter,
-  } = useContext(AnimeContext);
+  const { fullAnime, fetchFullAnime, character, fetchAnimeCharacter } = useContext(AnimeContext);
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
 
   const openVideoPlayer = () => {
@@ -25,9 +20,13 @@ function Details() {
   const { mal_id } = useParams();
 
   useEffect(() => {
-    fetchFullAnime(mal_id);
-    fetchAnimeCharacter(mal_id);
-  }, [mal_id]);
+    if (!fullAnime) {
+      fetchFullAnime(mal_id);
+    }
+    if (character.length === 0) {
+      fetchAnimeCharacter(mal_id);
+    }
+  }, [fullAnime, character]);
 
   if (!fullAnime) {
     return (
@@ -169,7 +168,7 @@ function Details() {
       </section>
 
       <section className="container mx-auto border-t border-cool rounded px-2">
-        <div className="grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 transition-all duration-300 my-5">
+        <div className="grid grid-flow-row grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 transition-all duration-300 my-5">
           {character.map((char) => (
             <CharacterCard key={char.character.mal_id} {...char} />
           ))}

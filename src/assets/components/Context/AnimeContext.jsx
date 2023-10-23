@@ -9,12 +9,13 @@ function AnimesContext({ children }) {
   const [characterInfo, setCharacterInfo] = useState([]);
   const [fullAnime, setFullAnime] = useState(null);
 
-  const apiBaseUrlCurrent = "https://api.jikan.moe/v4/seasons/now";
-  const apiBaseUrlTop = "https://api.jikan.moe/v4/top/anime";
+  const apiBaseUrl = "https://api.jikan.moe/v4/";
+  const apiBaseUrlCurrent = `${apiBaseUrl}seasons/now`;
+  const apiBaseUrlTop =`${apiBaseUrl}top/anime"`
 
   const fetchCharacterInfo = async (id) => {
     try {
-      const characterInfo = `https://api.jikan.moe/v4/characters/${id}`;
+      const characterInfo = `${apiBaseUrl}characters/${id}/full`;
       const response = await fetch(characterInfo);
   
       if (!response.ok) {
@@ -23,10 +24,8 @@ function AnimesContext({ children }) {
   
       const data = await response.json();
       setCharacterInfo(data.data);
-      console.log(data.data);
     } catch (error) {
       console.error("Error fetching character info:", error);
-      // You can also set an error state or display an error message to the user here
     }
   };
 
@@ -37,7 +36,6 @@ function AnimesContext({ children }) {
       .then((response) => response.json())
       .then((data) => {
         setCharacter(data.data);
-        console.log(data)
       })
       .catch((error) => {
         console.error("Error fetching anime character details:", error);

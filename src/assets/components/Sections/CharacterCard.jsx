@@ -1,12 +1,9 @@
-import React, { useState} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 
 function CharacterCard(props) {
-  const [showDetails, setShowDetails] = useState(false);
 
-  const { role, mal_id } = props;
-  const { name, images } = props.character;
+  const { role } = props;
+  const { name, images} = props.character;
 
   const toggleDetails = () => {
     setShowDetails((prevShowDetails) => !prevShowDetails);
@@ -22,36 +19,9 @@ function CharacterCard(props) {
         />
       </div>
       <div className="">
-        <div className="flex justify-between p-2">
-          <h2 className="text-3xl text-cool px-2 ">Role: {role}</h2>
-          <button
-            className="animate-bounce transition-all duration-300 text-2xl "
-            onClick={toggleDetails}
-          >
-            <FontAwesomeIcon icon={faArrowDown} />
-          </button>
-        </div>
-        <div className="relative ">
-          <div
-            className={`absolute top-0 ${
-              showDetails ? "h-40" : "h-0"
-            } rounded-b-xl translate left-0 w-full z-10 overflow-hidden bg-opacity-80 backdrop-blur-lg bg-background transition-all duration-300`}
-          >
-            <ul className="p-1">
-              <li className="flex justify-between mt-1 font-bold">
-                Name:
-                <span className="ml-5 font-thin">{name}</span>
-              </li>
-              <li className="flex justify-between mt-1 font-bold">
-                Kanji:
-                <span className="ml-5 font-thin"> ロイド・フォージャー </span>
-              </li>
-              <li className="flex justify-between mt-1 font-bold">
-                NickName:
-                <span className="ml-5 font-thin"> Twilight</span>
-              </li>
-            </ul>
-          </div>
+        <div className="flex flex-col justify-between p-2">
+          <h2 className="text-xl text-cool px-2 "><span className="text-primary">{name}</span> </h2>
+          <h2 className="text-2xl text-cool px-2 ">Role: <span className="text-primary">{role}</span> </h2>                 
         </div>
       </div>
     </div>
