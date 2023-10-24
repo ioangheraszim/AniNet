@@ -24,7 +24,7 @@ function LatestAnime() {
           View All <FontAwesomeIcon icon={faArrowRight} />
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-col-3 sm:gap-4 md:gap-5 p-4 lg:p-10 transition-all duration-300">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 md:gap-5 p-4 lg:p-10 transition-all duration-300">
         {currentAnime.map((anime) => (
           <CardComponent
             key={anime.mal_id}

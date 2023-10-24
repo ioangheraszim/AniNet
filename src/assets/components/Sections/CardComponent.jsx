@@ -7,7 +7,7 @@ function CardComponent({ mal_id, title, score, episodes, status, image, year, ty
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0); 
   }, [location]);
 
   const navigateToDetails = () => {

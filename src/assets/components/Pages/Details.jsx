@@ -26,7 +26,7 @@ function Details() {
     if (character.length === 0) {
       fetchAnimeCharacter(mal_id);
     }
-  }, [fullAnime, character]);
+  }, [mal_id, fullAnime, character]);
 
   if (!fullAnime) {
     return (

@@ -7,6 +7,7 @@ import Details from "./assets/components/Pages/Details";
 import AnimesContext from "./assets/components/Context/AnimeContext";
 import Navbar from "./assets/components/Navbar"
 import Footer from "./assets/components/Footer"
+import CharacterDetails from "./assets/components/Pages/CharacterDetails";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/homepage" element={<Home />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/details/:mal_id" element={<Details />} />
+            <Route path="/characterdetails/:mal_id" element={<CharacterDetails/>} />
             <Route path="/series" element={<Series />} />
             <Route path="/bookmark" element={<Bookmark />} />
             <Route path="*" element={<Home />} />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function Movies() {
   const [characters, setCharacters] = useState([]);
-  const id = 5705;
+  const id = 31964;
   const animeURL = `https://api.jikan.moe/v4/characters/${id}`;
 
   async function fetchAnimeData() {

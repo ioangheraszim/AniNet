@@ -11,19 +11,22 @@ function AnimesContext({ children }) {
 
   const apiBaseUrl = "https://api.jikan.moe/v4/";
   const apiBaseUrlCurrent = `${apiBaseUrl}seasons/now`;
-  const apiBaseUrlTop =`${apiBaseUrl}top/anime"`
+  const apiBaseUrlTop = `${apiBaseUrl}top/anime`;
 
   const fetchCharacterInfo = async (id) => {
     try {
       const characterInfo = `${apiBaseUrl}characters/${id}/full`;
       const response = await fetch(characterInfo);
-  
+
       if (!response.ok) {
-        throw new Error(`Failed to fetch character info: ${response.statusText}`);
+        throw new Error(
+          `Failed to fetch character info: ${response.statusText}`
+        );
       }
-  
+
       const data = await response.json();
       setCharacterInfo(data.data);
+      console.log(data.data)
     } catch (error) {
       console.error("Error fetching character info:", error);
     }
@@ -31,7 +34,7 @@ function AnimesContext({ children }) {
 
   // Fetches anime character image, id, name of the selected anime id
   const fetchAnimeCharacter = (id) => {
-    const characterUrl = `https://api.jikan.moe/v4/anime/${id}/characters`;
+    const characterUrl = `${apiBaseUrl}anime/${id}/characters`;
     fetch(characterUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -44,7 +47,7 @@ function AnimesContext({ children }) {
 
   // Fetches full anime information except character information on the selected anime
   const fetchFullAnime = (id) => {
-    const fullAnimeUrl = `https://api.jikan.moe/v4/anime/${id}/full`;
+    const fullAnimeUrl = `${apiBaseUrl}anime/${id}/full`;
     fetch(fullAnimeUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -60,7 +63,7 @@ function AnimesContext({ children }) {
     fetch(apiBaseUrlCurrent)
       .then((response) => response.json())
       .then((data) => {
-        setCurrentAnime(data.data.slice(0, 9));
+        setCurrentAnime(data.data.slice(0, 12));
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -69,13 +72,13 @@ function AnimesContext({ children }) {
 
   // Similar to above but with the top anime
   const fetchTopAnime = async () => {
-    const response = await fetch(apiBaseUrlTop)
-    if(!response.ok) {
-      throw new Error (`Failed to fetch top anime info: ${response.statusText}`)
+    const response = await fetch(apiBaseUrlTop);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch top anime info: ${response.statusText}`);
     }
-    const data = await response.json()
-    const slicedData = data.data.slice(0, 9)
-        setTopAnime(slicedData);
+    const data = await response.json();
+    const slicedData = data.data.slice(0, 12);
+    setTopAnime(slicedData);
   };
 
   useEffect(() => {
@@ -101,7 +104,6 @@ function AnimesContext({ children }) {
 
     // Fetch full anime character details
     fetchWithRateLimit(fetchCharacterInfo, 1000);
-    
   }, []);
 
   const contextValue = {

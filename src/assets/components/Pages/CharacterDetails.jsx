@@ -1,24 +1,32 @@
-import React from 'react'
+import React, { useContext, useEffect } from "react";
+import { AnimeContext } from "../Context/AnimeContext";
+import { useParams } from "react-router-dom";
 
 function CharacterDetails() {
+
+  const { characterInfo, fetchCharacterInfo } = useContext(AnimeContext);
+
+  const { name, name_kanji, images, nicknames, about } = characterInfo;
+  const { mal_id } = useParams();
+  
+  console.log(characterInfo);
+  useEffect(() => {
+    fetchCharacterInfo(mal_id);
+  }, [mal_id]);
+
   return (
-    <section className="container mx-auto">
-      <h1 className="text-3xl">Movies</h1>
-      {characters && characters.data ? (
-        <div className="p-1" key={characters.data.mal_id}>
-          <li className="flex justify-between mt-1 font-bold">Name: <span  className="ml-5 font-thin"> {characters.data.name} </span> </li>
-          <p>{characters.data.about}</p>
-          <li>{characters.data.name_kanji}</li>
-          <img
-            src={characters.data.images?.jpg?.image_url}
-            alt={characters.data.name}
-            />
+    <section className="container md:flex mx-auto py-10">
+      <div className="w-full mr-5">
+        <img className="w-full h-full rounded-lg" src={images?.webp.image_url} alt={name} />
+      </div>
+      <div className="w-full">
+        <div>
+          <h1 className="text-3xl xsm:mt-10 sm:mt-5 md:mt-0 p-1">Name: {name}</h1>
+          <h2 className="text-xl p-1">{name_kanji}</h2>
+          <h2 className="text-lg p-1">{nicknames}</h2>
         </div>
-      ) : (
-        <div className="flex items-center justify-center h-screen">
-          <div className="animate-spin rounded-full border-t-4 border-blue-500 border-b-4 h-12 w-12"></div>
-        </div>
-      )}
+        <p className="text-justify">{about}</p>
+      </div>
     </section>
   )
 }
