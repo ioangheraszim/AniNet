@@ -5,7 +5,7 @@ import Popular from "../Sections/Popular"
 
 function Home() {
   return (
-    <main className="text-primary">
+    <main className="text-primary relative">
       <HeroSection />
       <LatestAnime />
       <Popular />

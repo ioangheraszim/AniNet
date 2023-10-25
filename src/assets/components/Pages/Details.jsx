@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookmark, faPlay, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom";
+import { faBookmark, faPlay, faXmark, faLeftLong,} from "@fortawesome/free-solid-svg-icons";
+import { useNavigate, useParams } from "react-router-dom";
 import { AnimeContext } from "../Context/AnimeContext";
 import CharacterCard from "../Sections/CharacterCard";
 
@@ -9,6 +9,12 @@ function Details() {
   const { fullAnime, fetchFullAnime, character, fetchAnimeCharacter } = useContext(AnimeContext);
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
 
+  const navigate = useNavigate();
+
+  const navigateBack = () => {
+    navigate(`/`);
+    window.location.reload();
+  };
   const openVideoPlayer = () => {
     setShowVideoPlayer(true);
   };
@@ -55,6 +61,15 @@ function Details() {
 
   return (
     <>
+      <div className="mx-auto container flex justify-end mt-10">
+        <button
+          onClick={navigateBack}
+          className="bg-accent hover:bg-cool rounded-lg px-5 py-2"
+        >
+          <FontAwesomeIcon icon={faLeftLong} /> Back
+        </button>
+      </div>
+
       <section id="up" className="container md:flex mx-auto p-10 relative">
         <div className="w-full">
           <img
@@ -139,6 +154,7 @@ function Details() {
               <button className="bg-accent hover:bg-cool rounded-lg px-5 py-2">
                 <FontAwesomeIcon icon={faBookmark} /> Bookmark
               </button>
+
               <a href="#up">
                 <button
                   onClick={openVideoPlayer}

@@ -17,7 +17,7 @@ function Navbar() {
   }
 
   return (
-    <header className="bg-opacity-80 backdrop-blur-lg bg-accent font-semibold z-10 relative">
+    <header  className="bg-opacity-80 backdrop-blur-lg bg-accent font-semibold z-10 sticky top-0">
       <nav className="p-4">
         <div className="container transition-all duration-300 mx-auto flex items-center justify-between">
           <Link to="/homepage" className="text-3xl font-bold text-white" onClick={navigateToHome}>Ani<span className="text-cool">Net</span></Link>

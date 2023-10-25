@@ -1,20 +1,37 @@
 import React, { useContext, useEffect } from "react";
 import { AnimeContext } from "../Context/AnimeContext";
-import { useParams } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLeftLong } from "@fortawesome/free-solid-svg-icons";
 function CharacterDetails() {
 
+  const navigate = useNavigate()
+
+  const navigateBackDetails = () => {
+    navigate(`/details/${mal_id}`)
+  }
   const { characterInfo, fetchCharacterInfo } = useContext(AnimeContext);
 
   const { name, name_kanji, images, nicknames, about } = characterInfo;
   const { mal_id } = useParams();
   
   console.log(characterInfo);
+
   useEffect(() => {
     fetchCharacterInfo(mal_id);
   }, [mal_id]);
 
   return (
+
+    <>
+    <div className="mx-auto container flex justify-end mt-10">
+        <button
+          onClick={navigateBackDetails}
+          className="bg-accent hover:bg-cool rounded-lg px-5 py-2"
+        >
+          <FontAwesomeIcon icon={faLeftLong} /> Back
+        </button>
+      </div>
     <section className="container md:flex mx-auto py-10">
       <div className="w-full mr-5">
         <img className="w-full h-full rounded-lg" src={images?.webp.image_url} alt={name} />
@@ -28,6 +45,8 @@ function CharacterDetails() {
         <p className="text-justify">{about}</p>
       </div>
     </section>
+    
+    </>
   )
 }
 

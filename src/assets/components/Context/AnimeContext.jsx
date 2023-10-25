@@ -13,6 +13,8 @@ function AnimesContext({ children }) {
   const apiBaseUrlCurrent = `${apiBaseUrl}seasons/now`;
   const apiBaseUrlTop = `${apiBaseUrl}top/anime`;
 
+
+  // Fetches full character info for selected characters
   const fetchCharacterInfo = async (id) => {
     try {
       const characterInfo = `${apiBaseUrl}characters/${id}/full`;
@@ -33,17 +35,24 @@ function AnimesContext({ children }) {
   };
 
   // Fetches anime character image, id, name of the selected anime id
-  const fetchAnimeCharacter = (id) => {
-    const characterUrl = `${apiBaseUrl}anime/${id}/characters`;
-    fetch(characterUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setCharacter(data.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching anime character details:", error);
-      });
+  const fetchAnimeCharacter = async (id) => {
+    try {
+      const characterUrl = `${apiBaseUrl}anime/${id}/characters`;
+      const response = await fetch(characterUrl);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch character info: ${response.statusText}`
+        );
+      }
+
+      const data = await response.json();
+      setCharacter(data.data);
+      console.log(data.data);
+    } catch (error) {
+      console.error("Error fetching anime character details:", error);
+    }
   };
+
 
   // Fetches full anime information except character information on the selected anime
   const fetchFullAnime = (id) => {
@@ -93,17 +102,17 @@ function AnimesContext({ children }) {
       return fetchPromise;
     };
 
-    // Fetch latest anime with a 3-second delay between requests
-    fetchWithRateLimit(fetchLatestAnime, 1000);
+    // Fetch latest anime with a .5-second delay between requests
+    fetchWithRateLimit(fetchLatestAnime, 0);
 
-    // Fetch top anime with a 3-second delay between requests
-    fetchWithRateLimit(fetchTopAnime, 1000);
+    // Fetch top anime with a .5-second delay between requests
+    fetchWithRateLimit(fetchTopAnime, 0);
 
-    // Fetch full anime details with a 3-second delay between requests
-    fetchWithRateLimit(fetchFullAnime, 1000);
+    // Fetch full anime details with a .5-second delay between requests
+    fetchWithRateLimit(fetchFullAnime, 0);
 
     // Fetch full anime character details
-    fetchWithRateLimit(fetchCharacterInfo, 1000);
+    fetchWithRateLimit(fetchCharacterInfo, 0);
   }, []);
 
   const contextValue = {
