@@ -1,35 +1,56 @@
-import React, { useContext, useEffect } from "react";
-import { AnimeContext } from "../Context/AnimeContext";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 function Series() {
-  const { characterInfo, fetchCharacterInfo } = useContext(AnimeContext);
+  const [allAnime, setAllAnime] = useState([]); // Initialize with an empty array
 
-  const { name, name_kanji, images, nicknames, about } = characterInfo;
-  const { mal_id } = useParams();
+  const fetchAllData = async () => {
+    try {
+      let allAnimeData = [];
+      let page = 1;
+      const perPage = 8; // Number of anime per page
 
-  console.log(characterInfo);
+      while (allAnimeData.length < 20) {
+        const response = await fetch(`https://api.jikan.moe/v4/seasons/now?page=${page}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch top anime info: ${response.statusText}`);
+        }
+        const data = await response.json();
+        allAnimeData = allAnimeData.concat(data.data);
+        page++;
+
+        // Check if you have enough anime data or if there are no more pages to fetch
+        if (data.data.length < perPage) {
+          break;
+        }
+      }
+
+      // Set the first 10 anime from the concatenated data
+      setAllAnime(allAnimeData);
+    } catch (error) {
+      console.error("There is an error at", error);
+    }
+  }
+
   useEffect(() => {
-    fetchCharacterInfo(112891);
-  }, [112891]);
+    fetchAllData();
+  }, []); // The empty dependency array ensures it only runs once when the component mounts.
+
+  // Define a filter criteria for movies
+  const movieFilter = "Movie";
+
+  // Use the filter function to keep movies
+  const filteredMovies = allAnime.filter((anime) => {
+    return anime.type === movieFilter;
+  });
+
   return (
     <>
       <h1 className="container mx-auto mt-10 text-3xl">Series: For testing purposes only for now</h1>
-    <section className="container md:flex mx-auto py-10">
-      <div className="w-full mr-5">
-        <img className="w-full h-full" src={images?.webp.image_url} alt={name} />
-      </div>
-      <div className="w-full">
-        <div>
-          <h1 className="text-3xl">{name}</h1>
-          <h2 className="text-xl">{name_kanji}</h2>
-          <h2 className="text-lg">{nicknames}</h2>
-        </div>
-        <p>{about}</p>
-      <button className="bg-cool p-2 px-4 my-5 rounded-lg">  back </button>
-      </div>
-    </section>
-    
+      <section className="container md:flex mx-auto py-10">
+        {allAnime.map((anime) => (
+          <div key={anime.id}>{anime.title}</div>
+        ))}
+      </section>
     </>
   );
 }

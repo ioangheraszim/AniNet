@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CardComponent from "./CardComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { AnimeContext } from "../Context/AnimeContext";
+import { Link } from "react-router-dom";
 
 function Popular() {
   const { topAnime } = useContext(AnimeContext);
+  
 
   if (!topAnime) {
     return (
@@ -14,6 +16,8 @@ function Popular() {
       </div>
     );
   }
+
+  const slicedTop = topAnime.slice(0, 12);
   
   return (
     <section className="container mx-auto">
@@ -21,13 +25,13 @@ function Popular() {
         <h1 className="border-l-4 border-cool pl-5 font-oswald uppercase tracking-widest font-bold text-xl">
           Popular
         </h1>
-        <button className="cursor-pointer tracking-wider my-5">
+        <Link to="/topanime" className="cursor-pointer tracking-wider my-5">
           View All <FontAwesomeIcon icon={faArrowRight} />
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 md:gap-5 p-4 lg:p-10 transition-all duration-300">
-        {topAnime.map((anime) => (
+        {slicedTop.map((anime) => (
           <CardComponent
             key={anime.mal_id}
             {...anime}

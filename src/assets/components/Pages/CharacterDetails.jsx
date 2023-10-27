@@ -14,8 +14,6 @@ function CharacterDetails() {
 
   const { name, name_kanji, images, nicknames, about } = characterInfo;
   const { mal_id } = useParams();
-  
-  console.log(characterInfo);
 
   useEffect(() => {
     fetchCharacterInfo(mal_id);

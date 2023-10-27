@@ -8,6 +8,8 @@ import AnimesContext from "./assets/components/Context/AnimeContext";
 import Navbar from "./assets/components/Navbar"
 import Footer from "./assets/components/Footer"
 import CharacterDetails from "./assets/components/Pages/CharacterDetails";
+import ViewAllTopAnime from "./assets/components/Pages/ViewAllTopAnime";
+import ViewLatestAnime from "./assets/components/Pages/ViewLatestAnime";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/homepage" element={<Home />} />
             <Route path="/movies" element={<Movies />} />
+            <Route path="/topanime" element={<ViewAllTopAnime />} />
+            <Route path="/latestanime" element={<ViewLatestAnime />} />
             <Route path="/details/:mal_id" element={<Details />} />
             <Route path="/characterdetails/:mal_id" element={<CharacterDetails/>} />
             <Route path="/series" element={<Series />} />

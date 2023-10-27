@@ -10,16 +10,12 @@ function AnimesContext({ children }) {
   const [fullAnime, setFullAnime] = useState(null);
 
   const apiBaseUrl = "https://api.jikan.moe/v4/";
-  const apiBaseUrlCurrent = `${apiBaseUrl}seasons/now`;
-  const apiBaseUrlTop = `${apiBaseUrl}top/anime`;
-
 
   // Fetches full character info for selected characters
   const fetchCharacterInfo = async (id) => {
     try {
       const characterInfo = `${apiBaseUrl}characters/${id}/full`;
       const response = await fetch(characterInfo);
-
       if (!response.ok) {
         throw new Error(
           `Failed to fetch character info: ${response.statusText}`
@@ -28,7 +24,6 @@ function AnimesContext({ children }) {
 
       const data = await response.json();
       setCharacterInfo(data.data);
-      console.log(data.data)
     } catch (error) {
       console.error("Error fetching character info:", error);
     }
@@ -47,7 +42,6 @@ function AnimesContext({ children }) {
 
       const data = await response.json();
       setCharacter(data.data);
-      console.log(data.data);
     } catch (error) {
       console.error("Error fetching anime character details:", error);
     }
@@ -68,11 +62,12 @@ function AnimesContext({ children }) {
   };
 
   // Fetches the latest anime out right now | selected only 9 with slice method |
-  const fetchLatestAnime = () => {
+  const fetchLatestAnime = (page = 1) => {
+    const apiBaseUrlCurrent = `${apiBaseUrl}seasons/now?page=${page}`;
     fetch(apiBaseUrlCurrent)
       .then((response) => response.json())
       .then((data) => {
-        setCurrentAnime(data.data.slice(0, 12));
+        setCurrentAnime(data.data.slice(0, 20));
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -80,39 +75,54 @@ function AnimesContext({ children }) {
   };
 
   // Similar to above but with the top anime
-  const fetchTopAnime = async () => {
+  const fetchTopAnime = async (page = 1) => {
+    const apiBaseUrlTop = `${apiBaseUrl}top/anime?page=${page}`;
     const response = await fetch(apiBaseUrlTop);
     if (!response.ok) {
       throw new Error(`Failed to fetch top anime info: ${response.statusText}`);
     }
     const data = await response.json();
-    const slicedData = data.data.slice(0, 12);
+    const slicedData = data.data;
     setTopAnime(slicedData);
   };
 
   useEffect(() => {
-    // Implement rate limiting here to respect the API rate limits
-    const fetchWithRateLimit = (fetchFunction, delay) => {
-      const fetchPromise = new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(fetchFunction());
-        }, delay);
-      });
-
-      return fetchPromise;
+    // Define a function to fetch data with rate limiting
+    const fetchDataWithRateLimit = async (fetchFunction, maxRequestsPerMinute = 60, maxRequestsPerSecond = 3) => {
+      const requests = { thisMinute: 0, thisSecond: 0 };
+      const now = Date.now();
+      const resetTime = now + 60000; // 60 seconds in milliseconds
+  
+      // Rate-limiting logic
+      if (requests.thisMinute >= maxRequestsPerMinute) {
+        console.warn("Rate limit exceeded for this minute. Waiting...");
+        await new Promise((resolve) => setTimeout(resolve, resetTime - now));
+      }
+      if (requests.thisSecond >= maxRequestsPerSecond) {
+        console.warn("Rate limit exceeded for this second. Waiting...");
+        await new Promise((resolve) => setTimeout(resolve, 1000 - (now % 1000)))
+      }
+  
+      try {
+        // Fetch data and update request counts
+        const data = await fetchFunction();
+        console.log(`Request successful for ${fetchFunction.name}`);
+        requests.thisMinute++;
+        requests.thisSecond++;
+        return data;
+      } catch (error) {
+        console.error(`Error for ${fetchFunction.name}:`, error);
+        // Retry after 1 second
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        return fetchDataWithRateLimit(fetchFunction);
+      }
     };
-
-    // Fetch latest anime with a .5-second delay between requests
-    fetchWithRateLimit(fetchLatestAnime, 0);
-
-    // Fetch top anime with a .5-second delay between requests
-    fetchWithRateLimit(fetchTopAnime, 0);
-
-    // Fetch full anime details with a .5-second delay between requests
-    fetchWithRateLimit(fetchFullAnime, 0);
-
-    // Fetch full anime character details
-    fetchWithRateLimit(fetchCharacterInfo, 0);
+  
+    // Fetch data with rate limiting
+    fetchDataWithRateLimit(fetchLatestAnime);
+    fetchDataWithRateLimit(fetchTopAnime);
+    fetchDataWithRateLimit((id) => fetchFullAnime(id));
+    fetchDataWithRateLimit(() => fetchCharacterInfo(1));
   }, []);
 
   const contextValue = {
@@ -124,6 +134,8 @@ function AnimesContext({ children }) {
     fetchFullAnime,
     fetchAnimeCharacter,
     fetchCharacterInfo,
+    fetchTopAnime,
+    fetchLatestAnime,
   };
 
   return (
