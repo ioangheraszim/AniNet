@@ -5,24 +5,23 @@ function ViewLatestAnime() {
   const { currentAnime, fetchLatestAnime } = useContext(AnimeContext);
 
   const [currentPage, setCurrentPage] = useState(1);
-
+  
   const incrementPage = () => {
-    if (currentPage < 6) {
-      setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
-    }
-  };
+      if (currentPage < 6) {
+          setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+        }
+    };
+    
+    const decrementPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage((prevCurrentPage) => prevCurrentPage - 1);
+        }
+    };
 
-  const decrementPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prevCurrentPage) => prevCurrentPage - 1);
-    }
-  };
-  useEffect(() => {
-    fetchLatestAnime(currentPage);
-  }, [currentPage]);
-
-  console.log(currentPage);
-
+    useEffect(() => {
+        fetchLatestAnime(currentPage);
+    }, [currentPage]);
+    
   if (!currentAnime) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -36,15 +35,6 @@ function ViewLatestAnime() {
       <div className="">
         <h1 className="text-3xl mt-10">Popular Anime</h1>
       </div>
-      <div className="container mx-auto mt-10 w-full flex items-center justify-between">
-        <button onClick={decrementPage} className="p-3 bg-cool rounded">
-          Previous Page
-        </button>
-        <input placeholder={currentPage} className="text-3xl"></input>
-        <button onClick={incrementPage} className="p-3 bg-cool rounded">
-          Next Page
-        </button>
-      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 md:gap-5 p-4 lg:p-10 transition-all duration-300">
         {currentAnime.map((anime) => (
           <CardComponent
@@ -55,6 +45,15 @@ function ViewLatestAnime() {
             type={anime.type}
           />
         ))}
+      </div>
+      <div className="container mx-auto mt-10 w-full flex items-center justify-between">
+        <button onClick={decrementPage} className="p-3 bg-cool rounded">
+          Previous Page
+        </button>
+        <span>{currentPage === 1 ? "" : currentPage - 1}</span><p className="text-3xl">{currentPage}</p> <span>{currentPage === 6 ? "" : currentPage + 1}</span>
+        <button onClick={incrementPage} className={currentPage === 6 ? "text-background" : "p-3 bg-cool rounded"}>
+            Next Page
+        </button>
       </div>
     </section>
   );

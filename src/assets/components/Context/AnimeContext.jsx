@@ -67,7 +67,7 @@ function AnimesContext({ children }) {
     fetch(apiBaseUrlCurrent)
       .then((response) => response.json())
       .then((data) => {
-        setCurrentAnime(data.data.slice(0, 20));
+        setCurrentAnime(data.data.slice(0, 24));
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -82,8 +82,7 @@ function AnimesContext({ children }) {
       throw new Error(`Failed to fetch top anime info: ${response.statusText}`);
     }
     const data = await response.json();
-    const slicedData = data.data;
-    setTopAnime(slicedData);
+    setTopAnime(data);
   };
 
   useEffect(() => {

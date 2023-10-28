@@ -6,10 +6,12 @@ import { AnimeContext } from "../Context/AnimeContext";
 import { Link } from "react-router-dom";
 
 function Popular() {
-  const { topAnime } = useContext(AnimeContext);
-  
 
-  if (!topAnime) {
+  const { topAnime } = useContext(AnimeContext);
+
+
+  const topAnimeData = topAnime.data;
+  if (!topAnimeData) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="animate-spin rounded-full border-t-4 border-blue-500 border-b-4 h-12 w-12"></div>
@@ -17,7 +19,7 @@ function Popular() {
     );
   }
 
-  const slicedTop = topAnime.slice(0, 12);
+  const slicedTop = topAnimeData.slice(0, 12);
   
   return (
     <section className="container mx-auto">
