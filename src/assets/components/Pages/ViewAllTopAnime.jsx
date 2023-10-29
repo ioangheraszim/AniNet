@@ -8,7 +8,7 @@ function ViewAllTopAnime() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const incrementPage = () => {
-      setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+    setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
   };
 
   const decrementPage = () => {
@@ -17,17 +17,12 @@ function ViewAllTopAnime() {
     }
   };
 
-  
-
-
   const setLastPage = () => {
-    setCurrentPage(topAnime.pagination.last_visible_page)
-  }
+    setCurrentPage(topAnime.pagination.last_visible_page);
+  };
   useEffect(() => {
     fetchTopAnime(currentPage);
   }, [currentPage]);
-
-  console.log(topAnime);
 
   if (!topAnimeData) {
     return (
@@ -57,15 +52,23 @@ function ViewAllTopAnime() {
         <button onClick={decrementPage} className="p-3 bg-cool rounded">
           Previous Page
         </button>
-        <span>{currentPage === 1 ? "" : currentPage - 1}</span><p className="text-3xl">{currentPage}</p> <span>{currentPage === 6 ? "" : currentPage + 1}</span>
-        <button onClick={incrementPage} className={currentPage === topAnime.pagination.last_visible_page ? "text-background" : "p-3 bg-cool rounded"}>
-            Next Page
+        <span>{currentPage === 1 ? "" : currentPage - 1}</span>
+        <p className="text-3xl">{currentPage}</p>{" "}
+        <span>{currentPage === 6 ? "" : currentPage + 1}</span>
+        <button
+          onClick={incrementPage}
+          className={
+            currentPage === topAnime.pagination.last_visible_page
+              ? "text-background"
+              : "p-3 bg-cool rounded"
+          }
+        >
+          Next Page
         </button>
         <button onClick={setLastPage}>
           {topAnime.pagination.last_visible_page}
         </button>
       </div>
-      
     </section>
   );
 }

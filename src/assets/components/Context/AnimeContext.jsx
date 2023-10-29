@@ -8,6 +8,24 @@ function AnimesContext({ children }) {
   const [character, setCharacter] = useState([]);
   const [characterInfo, setCharacterInfo] = useState([]);
   const [fullAnime, setFullAnime] = useState(null);
+  const [animes, setAnimes] = useState([]);
+
+  
+
+  const fetchAnime = async (page = 1) => {
+    try {
+      const response = await fetch(
+        `https://api.jikan.moe/v4/anime?page=${page}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setAnimes(data.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const apiBaseUrl = "https://api.jikan.moe/v4/";
 
@@ -49,7 +67,7 @@ function AnimesContext({ children }) {
 
 
   // Fetches full anime information except character information on the selected anime
-  const fetchFullAnime = (id) => {
+  const fetchFullAnimeById = (id) => {
     const fullAnimeUrl = `${apiBaseUrl}anime/${id}/full`;
     fetch(fullAnimeUrl)
       .then((response) => response.json())
@@ -61,17 +79,15 @@ function AnimesContext({ children }) {
       });
   };
 
-  // Fetches the latest anime out right now | selected only 9 with slice method |
-  const fetchLatestAnime = (page = 1) => {
+  // Fetches the latest anime out right now | selected only 24 with slice method |
+  const fetchLatestAnime = async (page = 1) => {
     const apiBaseUrlCurrent = `${apiBaseUrl}seasons/now?page=${page}`;
-    fetch(apiBaseUrlCurrent)
-      .then((response) => response.json())
-      .then((data) => {
-        setCurrentAnime(data.data.slice(0, 24));
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    const response = await fetch(apiBaseUrlCurrent);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch top anime info: ${response.statusText}`);
+    }
+    const data = await response.json();
+    setCurrentAnime(data);
   };
 
   // Similar to above but with the top anime
@@ -118,23 +134,26 @@ function AnimesContext({ children }) {
     };
   
     // Fetch data with rate limiting
+    fetchDataWithRateLimit(fetchAnime);
     fetchDataWithRateLimit(fetchLatestAnime);
     fetchDataWithRateLimit(fetchTopAnime);
-    fetchDataWithRateLimit((id) => fetchFullAnime(id));
+    fetchDataWithRateLimit((id) => fetchFullAnimeById(id));
     fetchDataWithRateLimit(() => fetchCharacterInfo(1));
   }, []);
 
   const contextValue = {
+    animes,
     currentAnime,
     topAnime,
     fullAnime,
     character,
     characterInfo,
-    fetchFullAnime,
+    fetchFullAnimeById,
     fetchAnimeCharacter,
     fetchCharacterInfo,
     fetchTopAnime,
     fetchLatestAnime,
+    fetchAnime
   };
 
   return (

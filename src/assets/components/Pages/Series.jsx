@@ -1,57 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import CardComponent from "../Sections/CardComponent";
+import { AnimeContext } from "../Context/AnimeContext";
 
 function Series() {
-  const [allAnime, setAllAnime] = useState([]); // Initialize with an empty array
-
-  const fetchAllData = async () => {
-    try {
-      let allAnimeData = [];
-      let page = 1;
-      const perPage = 8; // Number of anime per page
-
-      while (allAnimeData.length < 20) {
-        const response = await fetch(`https://api.jikan.moe/v4/seasons/now?page=${page}`);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch top anime info: ${response.statusText}`);
-        }
-        const data = await response.json();
-        allAnimeData = allAnimeData.concat(data.data);
-        page++;
-
-        // Check if you have enough anime data or if there are no more pages to fetch
-        if (data.data.length < perPage) {
-          break;
-        }
-      }
-
-      // Set the first 10 anime from the concatenated data
-      setAllAnime(allAnimeData);
-    } catch (error) {
-      console.error("There is an error at", error);
-    }
-  }
+  const {animes, fetchAnime} = useContext(AnimeContext);
+  
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetchAllData();
-  }, []); // The empty dependency array ensures it only runs once when the component mounts.
+    fetchAnime(currentPage);
+  }, [currentPage]);
 
-  // Define a filter criteria for movies
-  const movieFilter = "Movie";
+  const incrementPage = () => {
+    setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+  };
 
-  // Use the filter function to keep movies
-  const filteredMovies = allAnime.filter((anime) => {
-    return anime.type === movieFilter;
-  });
+  const decrementPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevCurrentPage) => prevCurrentPage - 1);
+    }
+  };
+
+  const tvSeries = animes.filter((anime) => anime.type === "TV");
 
   return (
-    <>
-      <h1 className="container mx-auto mt-10 text-3xl">Series: For testing purposes only for now</h1>
-      <section className="container md:flex mx-auto py-10">
-        {allAnime.map((anime) => (
-          <div key={anime.id}>{anime.title}</div>
+    <section className="container mx-auto">
+      <div>
+        <h1 className="text-3xl mt-10 pl-10">Anime Series</h1>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-4 md:gap-5 p-4 lg:p-10 transition-all duration-300">
+        {tvSeries.map((anime) => (
+          <CardComponent
+            key={anime.mal_id}
+            {...anime}
+            image={anime.images.jpg.large_image_url}
+            year={anime.aired.prop.from.year}
+            type={anime.type}
+          />
         ))}
-      </section>
-    </>
+      </div>
+      <div className="container mx-auto mt-10 w-full flex items-center justify-between">
+        <button onClick={decrementPage} className="p-3 bg-cool rounded">
+          Previous Page
+        </button>
+        <span>{currentPage === 1 ? "" : currentPage - 1}</span>
+        <p className="text-3xl">{currentPage}</p>
+        <span>{currentPage === 8 ? "" : currentPage + 1}</span>
+        <button onClick={incrementPage} className={currentPage === 1033 ? "text-background" : "p-3 bg-cool rounded"}>
+            Next Page
+        </button>
+      </div>
+    </section>
   );
 }
 

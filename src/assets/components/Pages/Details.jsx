@@ -1,20 +1,18 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useLayoutEffect, useContext, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookmark, faPlay, faXmark, faLeftLong,} from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, useParams } from "react-router-dom";
+import { faBookmark, faPlay, faXmark,} from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router-dom";
 import { AnimeContext } from "../Context/AnimeContext";
 import CharacterCard from "../Sections/CharacterCard";
 
 function Details() {
-  const { fullAnime, fetchFullAnime, character, fetchAnimeCharacter } = useContext(AnimeContext);
+  const { fullAnime, fetchFullAnimeById, character, fetchAnimeCharacter } = useContext(AnimeContext);
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
 
-  const navigate = useNavigate();
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-  const navigateBack = () => {
-    navigate(`/`);
-    window.location.reload();
-  };
   const openVideoPlayer = () => {
     setShowVideoPlayer(true);
   };
@@ -27,12 +25,12 @@ function Details() {
 
   useEffect(() => {
     if (!fullAnime) {
-      fetchFullAnime(mal_id);
+      fetchFullAnimeById(mal_id);
     }
     if (character.length === 0) {
       fetchAnimeCharacter(mal_id);
     }
-  }, [mal_id, fullAnime, character]);
+  }, [mal_id, fetchFullAnimeById, character]);
 
   if (!fullAnime) {
     return (
@@ -61,14 +59,6 @@ function Details() {
 
   return (
     <>
-      <div className="mx-auto container flex justify-end mt-10">
-        <button
-          onClick={navigateBack}
-          className="bg-accent hover:bg-cool rounded-lg px-5 py-2"
-        >
-          <FontAwesomeIcon icon={faLeftLong} /> Back
-        </button>
-      </div>
 
       <section id="up" className="container md:flex mx-auto p-10 relative">
         <div className="w-full">

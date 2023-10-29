@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 function LatestAnime() {
   const { currentAnime } = useContext(AnimeContext)
 
+  const currentData = currentAnime.data;
   
-  if (!currentAnime) {
+  if (!currentData) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="animate-spin rounded-full border-t-4 border-blue-500 border-b-4 h-12 w-12"></div>
@@ -17,7 +18,7 @@ function LatestAnime() {
     );
   }
 
-  const slicedCurrent = currentAnime.slice(0, 12);
+  const slicedCurrent = currentData.slice(0, 12);
 
   return (
     <section className="container mx-auto">
