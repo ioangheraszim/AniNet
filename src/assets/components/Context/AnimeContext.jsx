@@ -9,9 +9,10 @@ function AnimesContext({ children }) {
   const [characterInfo, setCharacterInfo] = useState([]);
   const [fullAnime, setFullAnime] = useState(null);
   const [animes, setAnimes] = useState([]);
-
   
+  const apiBaseUrl = "https://api.jikan.moe/v4/";
 
+  // Fetches every anime by page
   const fetchAnime = async (page = 1) => {
     try {
       const response = await fetch(
@@ -27,7 +28,6 @@ function AnimesContext({ children }) {
     }
   };
 
-  const apiBaseUrl = "https://api.jikan.moe/v4/";
 
   // Fetches full character info for selected characters
   const fetchCharacterInfo = async (id) => {

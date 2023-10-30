@@ -24,12 +24,8 @@ function Details() {
   const { mal_id } = useParams();
 
   useEffect(() => {
-    if (!fullAnime) {
-      fetchFullAnimeById(mal_id);
-    }
-    if (character.length === 0) {
-      fetchAnimeCharacter(mal_id);
-    }
+    fetchFullAnimeById(mal_id);
+    fetchAnimeCharacter(mal_id);
   }, [mal_id, fetchFullAnimeById, character]);
 
   if (!fullAnime) {

@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import CardComponent from "../Sections/CardComponent";
 import { AnimeContext } from "../Context/AnimeContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeftLong, faArrowRightLong } from '@fortawesome/free-solid-svg-icons'
 
 function Movies() {
-  const {animes, fetchAnime} = useContext(AnimeContext);
-  
+  const { animes, fetchAnime } = useContext(AnimeContext);
+
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -21,7 +23,11 @@ function Movies() {
     }
   };
 
-  const animeMovie = animes.filter((anime) => anime.type === "Movie");
+  const movieOva = ["Movie", "OVA"];
+
+  const animeMovie = animes.filter((anime) =>
+    movieOva.some((type) => anime.type.includes(type))
+  );
 
   return (
     <section className="container mx-auto">
@@ -39,15 +45,22 @@ function Movies() {
           />
         ))}
       </div>
-      <div className="container mx-auto mt-10 w-full flex items-center justify-between">
-        <button onClick={decrementPage} className="p-3 bg-cool rounded">
-          Previous Page
+      <div className="container mx-auto mt-10 w-full flex items-center justify-center border-2 border-accent rounded-lg">
+        <button onClick={decrementPage} className="p-3 px-5 bg-accent hover:bg-gen rounded mr-auto">
+          <FontAwesomeIcon icon={faArrowLeftLong}/>
         </button>
-        <span>{currentPage === 1 ? "" : currentPage - 1}</span>
-        <p className="text-3xl">{currentPage}</p>
-        <span>{currentPage === 8 ? "" : currentPage + 1}</span>
-        <button onClick={incrementPage} className={currentPage === 1033 ? "text-background" : "p-3 bg-cool rounded"}>
-            Next Page
+        <button onClick={decrementPage} className={`${currentPage === 1 ? "hidden" : ""} mx-auto bg-accent hover:bg-gen py-3 px-5`}>{currentPage === 1 ? "" : currentPage - 1}</button>
+        <p className="mx-auto bg-secondary px-5 py-2 text-2xl">{currentPage}</p>
+        <button onClick={incrementPage} className={`${currentPage >= 1032 ? "hidden" : "mx-auto bg-accent hover:bg-gen py-3 px-5"}`}>{currentPage === 1032 ? "" : currentPage + 1}</button>
+        <button
+          onClick={incrementPage}
+          className={
+            currentPage === 1032
+              ? "text-background"
+              : "p-3 px-5 bg-accent hover:bg-gen rounded ml-auto"
+          }
+        >
+          <FontAwesomeIcon icon={faArrowRightLong} />
         </button>
       </div>
     </section>

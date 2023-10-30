@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AnimeContext } from "../Context/AnimeContext";
 import CardComponent from "../Sections/CardComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeftLong, faArrowRightLong } from '@fortawesome/free-solid-svg-icons'
+
 function ViewLatestAnime() {
   const { currentAnime, fetchLatestAnime } = useContext(AnimeContext);
 
@@ -8,7 +11,7 @@ function ViewLatestAnime() {
   const [currentPage, setCurrentPage] = useState(1);
   
   const incrementPage = () => {
-      if (currentPage < 6) {
+      if (currentPage < currentAnime.pagination.last_visible_page) {
           setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
         }
     };
@@ -47,13 +50,22 @@ function ViewLatestAnime() {
           />
         ))}
       </div>
-      <div className="container mx-auto mt-10 w-full flex items-center justify-between">
-        <button onClick={decrementPage} className="p-3 bg-cool rounded">
-          Previous Page
+      <div className="container mx-auto mt-10 w-full flex items-center justify-center border-2 border-accent rounded-lg">
+        <button onClick={decrementPage} className="p-3 px-5 bg-accent hover:bg-gen rounded mr-auto">
+          <FontAwesomeIcon icon={faArrowLeftLong}/>
         </button>
-        <span>{currentPage === 1 ? "" : currentPage - 1}</span><p className="text-3xl">{currentPage}</p> <span>{currentPage === currentAnime.pagination.last_visible_page ? "" : currentPage + 1}</span>
-        <button onClick={incrementPage} className={currentPage === currentAnime.pagination.last_visible_page ? "text-background" : "p-3 bg-cool rounded"}>
-            Next Page
+        <button onClick={decrementPage} className={`${currentPage === 1 ? "hidden" : ""} mx-auto bg-accent hover:bg-gen py-3 px-5`}>{currentPage === 1 ? "" : currentPage - 1}</button>
+        <p className="mx-auto bg-secondary px-5 py-2 text-2xl">{currentPage}</p>
+        <button onClick={incrementPage} className={`${currentPage >= currentAnime.pagination.last_visible_page ? "hidden" : "mx-auto bg-accent hover:bg-gen py-3 px-5"}`}>{currentPage === currentAnime.pagination.last_visible_page ? "" : currentPage + 1}</button>
+        <button
+          onClick={incrementPage}
+          className={
+            currentPage === currentAnime.pagination.last_visible_page
+              ? "text-background"
+              : "p-3 px-5 bg-accent hover:bg-gen rounded ml-auto"
+          }
+        >
+          <FontAwesomeIcon icon={faArrowRightLong} />
         </button>
       </div>
     </section>
