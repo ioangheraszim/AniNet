@@ -16,7 +16,7 @@ function AnimesContext({ children }) {
   const fetchAnime = async (page = 1) => {
     try {
       const response = await fetch(
-        `https://api.jikan.moe/v4/anime?page=${page}`
+        `${apiBaseUrl}anime?page=${page}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

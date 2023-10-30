@@ -10,6 +10,7 @@ import Footer from "./assets/components/Footer"
 import CharacterDetails from "./assets/components/Pages/CharacterDetails";
 import ViewAllTopAnime from "./assets/components/Pages/ViewAllTopAnime";
 import ViewLatestAnime from "./assets/components/Pages/ViewLatestAnime";
+import SearchPage from "./assets/components/Pages/SearchPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/characterdetails/:mal_id" element={<CharacterDetails/>} />
             <Route path="/series" element={<Series />} />
             <Route path="/bookmark" element={<Bookmark />} />
+            <Route path="/search" element={<SearchPage/>} />
             <Route path="*" element={<Home />} />
           </Routes>
           <Footer />
