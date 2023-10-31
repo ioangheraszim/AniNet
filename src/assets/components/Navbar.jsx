@@ -1,14 +1,44 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilm, faHouse, faMagnifyingGlass, faTv, faBars, faXmark, faBookmark } from '@fortawesome/free-solid-svg-icons'
+import { AnimeContext } from "./Context/AnimeContext";
 
 function Navbar() {
+  const {searchResults, fetchSearchAnime, searchInput, setSearchInput} = useContext(AnimeContext);  
   const [toggleNav, setToggleNav] = useState(false);
-  
+  const [toggleSearch, setToggleSearch] = useState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleNav = () => {
     setToggleNav(!toggleNav)
   }
+
+  const handleSearch = () => {
+    setToggleSearch(!toggleSearch)  
+  }
+
+  useEffect(()=> {
+    setToggleNav(false)
+  }, [location.pathname])
+
+  const onSearchInput = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearchClick = (e) => {
+    e.preventDefault();
+    fetchSearchAnime();
+    setToggleSearch(!toggleSearch)
+    setSearchInput("");
+    navigate("/search");
+  };
+
+  useEffect(() => {
+    fetchSearchAnime();
+  }, [searchInput]);
 
   return (
     <header  className="bg-opacity-80 backdrop-blur-lg bg-accent font-semibold z-10 sticky top-0">
@@ -22,11 +52,23 @@ function Navbar() {
             <li><Link to="/series" aria-label="Series" className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"><FontAwesomeIcon icon={faFilm} /></Link></li>
             <li><Link to="/bookmark" aria-label="Bookmark" className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"><FontAwesomeIcon icon={faBookmark} /></Link></li>
           </ul>
-          <div className="flex items-center space-x-4">
-            <button aria-label="search" className="bg-white bg-opacity-40 rounded p-2 mr-7 md:mr-0"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-            <button onClick={handleNav} className="md:hidden bg-white bg-opacity-40 rounded p-2">{toggleNav ? <></> : <FontAwesomeIcon icon={faBars} />}</button>
-          </div>
+        <div className="flex items-center space-x-4">
+          <button onClick={handleSearch} aria-label="search" className="bg-white bg-opacity-40 rounded p-2 mr-7 md:mr-0"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+          <button onClick={handleNav} className="md:hidden bg-white bg-opacity-40 rounded p-2">{toggleNav ? <></> : <FontAwesomeIcon icon={faBars} />}</button>
         </div>
+        </div>
+        <form className={`${toggleSearch ? "h-10 mt-5" : "h-0"} container mx-auto overflow-hidden transition-all duration-300 flex justify-center items-center`}>
+          <input
+            onInput={onSearchInput}
+            className="bg-gen text-cool border-none outline-none p-2 rounded-lg w-full transition-all duration-200 h-10 overflow-hidden"
+            type="text"
+            placeholder="Search..."            
+          >
+          </input>
+          <button onClick={handleSearchClick} className="ml-5 px-3 text-xl">
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </button>
+        </form>
       </nav>
     </header>
   )
