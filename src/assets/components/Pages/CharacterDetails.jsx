@@ -8,7 +8,7 @@ function CharacterDetails() {
   const navigate = useNavigate()
 
   const navigateBackDetails = () => {
-    navigate(`/details/${mal_id}`)
+    navigate(-1)
   }
   const { characterInfo, fetchCharacterInfo } = useContext(AnimeContext);
 

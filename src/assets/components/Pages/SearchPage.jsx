@@ -11,9 +11,12 @@ function SearchPage() {
 
   return (
     <section className="container mx-auto">
+      <h1 className="text-3xl">Search Page:</h1>
       <div className="grid grid-flow-row grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 transition-all duration-300 my-5">
         {!searchInput
-          ? ""
+          ? <div>
+              <h2>Type Something in the search bar</h2>
+            </div>
           : searchResults.map((item) => (
               <CardComponent
                 key={item.mal_id}
