@@ -11,8 +11,38 @@ function AnimesContext({ children }) {
   const [animes, setAnimes] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [bookmarkedAnimes, setBookmarkedAnimes] = useState({});
 
   const apiBaseUrl = "https://api.jikan.moe/v4/";
+
+  const addBookmarkAnime = (anime) => {
+    setBookmarkedAnimes((prevBookmarkedAnimes) => {
+      const newBookmarkedAnimes = {
+        ...prevBookmarkedAnimes,
+        [anime.mal_id]: anime,
+      };
+      saveBookmarksToLocalStorage(newBookmarkedAnimes); 
+      return newBookmarkedAnimes;
+    });
+  };
+
+  const removeBookmarkAnime = (animeId) => {
+    setBookmarkedAnimes((prevBookmarkedAnimes) => {
+      const updatedBookmarkedAnimes = { ...prevBookmarkedAnimes };
+      delete updatedBookmarkedAnimes[animeId];
+      saveBookmarksToLocalStorage(updatedBookmarkedAnimes);
+      return updatedBookmarkedAnimes;
+    });
+  };
+
+  const saveBookmarksToLocalStorage = (bookmarkedAnimes) => {
+    localStorage.setItem('bookmarkedAnimes', JSON.stringify(bookmarkedAnimes));
+  };
+
+  const getBookmarksFromLocalStorage = () => {
+    const bookmarks = localStorage.getItem('bookmarkedAnimes');
+    return bookmarks ? JSON.parse(bookmarks) : {};
+  };
 
   // Rate limit variables
   let requestsThisMinute = 0;
@@ -163,9 +193,14 @@ function AnimesContext({ children }) {
     fetchDataWithRateLimit((id) => fetchFullAnimeById(id));
     fetchDataWithRateLimit(() => fetchCharacterInfo(1));
     fetchDataWithRateLimit(fetchAnime);
+    
+    setBookmarkedAnimes(getBookmarksFromLocalStorage());
   }, []);
 
   const contextValue = {
+    bookmarkedAnimes,
+    addBookmarkAnime,
+    removeBookmarkAnime,
     animes,
     searchResults,
     currentAnime,

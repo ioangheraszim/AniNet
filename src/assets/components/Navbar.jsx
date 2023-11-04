@@ -5,7 +5,7 @@ import { faFilm, faHouse, faMagnifyingGlass, faTv, faBars, faXmark, faBookmark }
 import { AnimeContext } from "./Context/AnimeContext";
 
 function Navbar() {
-  const { searchResults, fetchSearchAnime, setSearchInput } = useContext(AnimeContext);
+  const { fetchSearchAnime, setSearchInput } = useContext(AnimeContext);
 
   // states
 
@@ -36,7 +36,6 @@ function Navbar() {
     e.preventDefault();
     if (inputValue.trim() !== "") {
       setSearchInput(inputValue);
-      fetchSearchAnime();
       navigate("/search");
       setInputValue("")
     } 

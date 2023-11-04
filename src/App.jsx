@@ -26,8 +26,8 @@ function App() {
             <Route path="/latestanime" element={<ViewLatestAnime />} />
             <Route path="/details/:mal_id" element={<Details />} />
             <Route path="/characterdetails/:mal_id" element={<CharacterDetails/>} />
-            <Route path="/series" element={<Series />} />
             <Route path="/bookmark" element={<Bookmark />} />
+            <Route path="/series" element={<Series />} />
             <Route path="/search" element={<SearchPage/>} />
             <Route path="*" element={<Home />} />
           </Routes>

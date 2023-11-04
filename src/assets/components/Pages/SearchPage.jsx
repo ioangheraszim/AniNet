@@ -4,10 +4,12 @@ import { AnimeContext } from "../Context/AnimeContext";
 
 function SearchPage() {
   const {searchResults, fetchSearchAnime, searchInput} = useContext(AnimeContext);  
-  
+
   useEffect(() => {
-    fetchSearchAnime();
-  }, []);
+    if (searchInput.trim() !== "") {
+      fetchSearchAnime();
+    }
+  }, [searchInput]);
 
   return (
     <section className="container mx-auto">

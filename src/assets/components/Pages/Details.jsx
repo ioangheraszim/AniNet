@@ -6,8 +6,9 @@ import { AnimeContext } from "../Context/AnimeContext";
 import CharacterCard from "../Sections/CharacterCard";
 
 function Details() {
-  const { fullAnime, fetchFullAnimeById, character, fetchAnimeCharacter } = useContext(AnimeContext);
+  const { bookmarkItems, addBookmarkAnime, fullAnime, fetchFullAnimeById, character, fetchAnimeCharacter } = useContext(AnimeContext);
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
@@ -23,10 +24,22 @@ function Details() {
 
   const { mal_id } = useParams();
 
+  const toggleBookmark = () => {
+    if (!bookmarked) {
+      // Store the full anime data when bookmarked
+      addBookmarkAnime(fullAnime);
+    } else {
+      // Remove the anime from bookmarks when unbookmarked
+      removeBookmarkAnime(mal_id);
+    }
+    setBookmarked(!bookmarked); // Toggle the bookmarked state
+  };
+
+
   useEffect(() => {
     fetchFullAnimeById(mal_id);
     fetchAnimeCharacter(mal_id);
-  }, [mal_id, fetchFullAnimeById, character]);
+  }, [mal_id, fetchFullAnimeById]);
 
   if (!fullAnime) {
     return (
@@ -137,12 +150,15 @@ function Details() {
               </ul>
             </div>
             <div className="mt-10">
-              <button className="bg-accent hover:bg-cool rounded-lg px-5 py-2">
-                <FontAwesomeIcon icon={faBookmark} /> Bookmark
-              </button>
+            <button 
+              onClick={toggleBookmark} 
+              className="bg-accent rounded-lg px-5 py-2 opacity-40 hover:opacity-100"
+            >
+              <FontAwesomeIcon icon={faBookmark} /> Bookmark
+            </button>
 
               <a href="#up">
-                <button
+                <button 
                   onClick={openVideoPlayer}
                   className="bg-accent hover:bg-cool rounded-lg px-5 py-2 ml-5"
                 >
