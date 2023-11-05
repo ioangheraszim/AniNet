@@ -26,7 +26,7 @@ function Footer() {
   return (
     <>
     <div className='sticky bottom-20 z-10'>
-      <button onClick={getBackUp} className="bg-opacity-50 backdrop-blur-lg bg-cool px-5 py-3.5 rounded-full absolute -top-4 right-5 xsm:right-5 md:right-10">
+      <button aria-label='scroll up button' onClick={getBackUp} className="bg-opacity-50 backdrop-blur-lg bg-cool px-5 py-3.5 rounded-full absolute -top-4 right-5 xsm:right-5 md:right-10">
         <FontAwesomeIcon icon={faArrowUp} />
       </button>
     </div>

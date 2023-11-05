@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AnimeContext } from '../Context/AnimeContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom';
 
 function Bookmark() {
   const { bookmarkedAnimes, removeBookmarkAnime } = useContext(AnimeContext);
@@ -28,14 +29,16 @@ function Bookmark() {
         Object.values(bookmarkedAnimes).map((anime) => (
           <div className='sm:flex justify-between items-center p-5' key={anime.mal_id}>
             <div className='flex flex-col justify-center sm:justify-normal sm:flex-row items-center max-w-lg'>
-              <img className='w-1/2 sm:w-[30%] md:w-[30%]' src={anime.images.webp.large_image_url} alt={anime.title} />
+              <Link to={`/details/${anime.mal_id}`} className='w-1/2 sm:w-[30%] md:w-[30%]'>
+                <img className='rounded-lg' src={anime.images.webp.large_image_url} alt={anime.title} />                             
+              </Link>
               <h3 className='my-2 text-center px-20'>{anime.title}</h3>
             </div>
             <div className='flex justify-evenly items-center'>
-              <button onClick={() => toggleWatched(anime.mal_id)} className={`${watchedStatus[anime.mal_id] ? "text-primary" : "text-gen"} hover:text-primary mr-5 text-2xl`}              >
+              <button aria-label="toggle watched" onClick={() => toggleWatched(anime.mal_id)} className={`${watchedStatus[anime.mal_id] ? "text-primary" : "text-gen"} hover:text-primary mr-5 text-2xl`}              >
                 <FontAwesomeIcon icon={faEye} />
               </button>
-              <button onClick={() => removeBookmarkAnime(anime.mal_id)} className='text-gen hover:text-cool text-2xl'>
+              <button aria-label="delete" onClick={() => removeBookmarkAnime(anime.mal_id)} className='text-gen hover:text-cool text-2xl'>
                 <FontAwesomeIcon icon={faTrash} />
               </button>
             </div>

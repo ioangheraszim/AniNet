@@ -46,13 +46,14 @@ function Movies() {
         ))}
       </div>
       <div className="container mx-auto mt-10 w-full flex items-center justify-center border-2 border-accent rounded-lg">
-        <button onClick={decrementPage} className="p-3 px-5 bg-accent hover:bg-gen rounded mr-auto">
+        <button aria-label="previous page" onClick={decrementPage} className="p-3 px-5 bg-accent hover:bg-gen rounded mr-auto">
           <FontAwesomeIcon icon={faArrowLeftLong}/>
         </button>
-        <button onClick={decrementPage} className={`${currentPage === 1 ? "hidden" : ""} mx-auto bg-accent hover:bg-gen py-3 px-5`}>{currentPage === 1 ? "" : currentPage - 1}</button>
+        <button aria-label={`page number ${decrementPage}`} onClick={decrementPage} className={`${currentPage === 1 ? "hidden" : ""} mx-auto bg-accent hover:bg-gen py-3 px-5`}>{currentPage === 1 ? "" : currentPage - 1}</button>
         <p className="mx-auto bg-secondary px-5 py-2 text-2xl">{currentPage}</p>
-        <button onClick={incrementPage} className={`${currentPage >= 1032 ? "hidden" : "mx-auto bg-accent hover:bg-gen py-3 px-5"}`}>{currentPage === 1032 ? "" : currentPage + 1}</button>
+        <button aria-label={`page number ${incrementPage}`} onClick={incrementPage} className={`${currentPage >= 1032 ? "hidden" : "mx-auto bg-accent hover:bg-gen py-3 px-5"}`}>{currentPage === 1032 ? "" : currentPage + 1}</button>
         <button
+          aria-label="next page"
           onClick={incrementPage}
           className={
             currentPage === 1032

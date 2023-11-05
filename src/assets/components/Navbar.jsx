@@ -56,7 +56,7 @@ function Navbar() {
           </ul>
           <div className="flex items-center space-x-4">
             <button onClick={handleSearch} aria-label="search" className="bg-white bg-opacity-40 rounded p-2 mr-7 md:mr-0"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-            <button onClick={handleNav} className="md:hidden bg-white bg-opacity-40 rounded p-2">{toggleNav ? <></> : <FontAwesomeIcon icon={faBars} />}</button>
+            <button onClick={handleNav} aria-label="bars" className="md:hidden bg-white bg-opacity-40 rounded p-2">{toggleNav ? <></> : <FontAwesomeIcon icon={faBars} />}</button>
           </div>
         </div>
         <form onSubmit={handleSearchClick}
@@ -69,7 +69,7 @@ function Navbar() {
             placeholder="Search..."
           >
           </input>
-          <button type="submit" className="ml-5 px-3 text-xl">
+          <button aria-label="search button" type="submit" className="ml-5 px-3 text-xl">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
         </form>

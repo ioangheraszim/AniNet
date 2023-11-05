@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useContext, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookmark, faPlay, faXmark,} from "@fortawesome/free-solid-svg-icons";
+import { faBookmark, faPlay, faXmark, faCheck} from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { AnimeContext } from "../Context/AnimeContext";
 import CharacterCard from "../Sections/CharacterCard";
@@ -9,6 +9,7 @@ function Details() {
   const { bookmarkItems, addBookmarkAnime, fullAnime, fetchFullAnimeById, character, fetchAnimeCharacter } = useContext(AnimeContext);
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
@@ -25,14 +26,18 @@ function Details() {
   const { mal_id } = useParams();
 
   const toggleBookmark = () => {
+    setBookmarked(!bookmarked);
     if (!bookmarked) {
       // Store the full anime data when bookmarked
       addBookmarkAnime(fullAnime);
+      setShowNotification(true)
+      setTimeout(() => {
+        setShowNotification(false)
+      }, 3000);
     } else {
       // Remove the anime from bookmarks when unbookmarked
       removeBookmarkAnime(mal_id);
     }
-    setBookmarked(!bookmarked); // Toggle the bookmarked state
   };
 
 
@@ -152,13 +157,26 @@ function Details() {
             <div className="mt-10">
             <button 
               onClick={toggleBookmark} 
-              className="bg-accent rounded-lg px-5 py-2 opacity-40 hover:opacity-100"
+              aria-label="bookmark"
+              disabled={bookmarked}
+              className={`${bookmarked ? "opacity-100" : "opacity-40"} bg-accent rounded-lg px-5 py-2 opacity-40 hover:opacity-100`}
             >
-              <FontAwesomeIcon icon={faBookmark} /> Bookmark
+              { bookmarked ? (
+                <span>
+                  <FontAwesomeIcon icon={faCheck}/> Bookmarked
+                </span>
+              )
+               : (
+                <span>
+                  <FontAwesomeIcon icon={faBookmark}/> Bookmark 
+                </span>
+               )
+            }
             </button>
 
               <a href="#up">
                 <button 
+                  aria-label="open videoplayer"
                   onClick={openVideoPlayer}
                   className="bg-accent hover:bg-cool rounded-lg px-5 py-2 ml-5"
                 >
@@ -170,6 +188,7 @@ function Details() {
           {showVideoPlayer && (
             <div className="bg-opacity-10 backdrop-blur-lg bg-accent absolute top-1/4 left-2/4 sm:top-1/2 sm:left-1/2 transform -translate-x-1/2 -translate-y-1/2  transition-all duration-300 xsm:w-full xsm:h-1/4 w-full h-1/6 sm:h-1/4 md:h-3/4 lg:h-5/6 ">
               <iframe
+                aria-label="close videoplayer"
                 className="w-full h-full p-7 "
                 src={trailer.embed_url}
                 showinfo="0"
@@ -184,6 +203,17 @@ function Details() {
           )}
         </div>
       </section>
+
+      { showNotification && (
+          <section className="transition-opacity duration-500 ease-in-out bg-accent bg-blur flex items-start border-2 border-gen w-max-1/5 rounded-lg p-5 absolute top-[100px] right-10">
+            <p className="text-primary bg-cool m-2 rounded-xl px-1"><FontAwesomeIcon icon={faCheck} /></p>
+            <div>
+              <p>Anime successfully Bookmarked!</p>
+              <p>You can now view your anime in the bookmarked page.</p>
+            </div>
+          </section>
+        )
+      }
 
       <section className="container mx-auto border-t border-cool rounded px-2">
         <div className="grid grid-flow-row grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 transition-all duration-300 my-5">
