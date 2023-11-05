@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useLayoutEffect } from "react";
 import CardComponent from "../Sections/CardComponent";
 import { AnimeContext } from "../Context/AnimeContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,10 @@ function Movies() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
+  useLayoutEffect(() =>{
+    window.scrollTo(0, 0)
+  }, [])
+  
   useEffect(() => {
     fetchAnime(currentPage);
   }, [currentPage]);
