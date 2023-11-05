@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <AnimesContext>
-        <Router>
+        <Router basename="/AniNet">
           <Navbar />
           <Routes>
             <Route index element={<Home />} />
