@@ -23,7 +23,7 @@ So, come and immerse yourself in the fascinating realm of anime with AniNet.
 ### Links
 
 - Solution URL: [AniNet Solution](https://github.com/ioangheraszim/AniNet)
-- Live Site URL: [AniNet Live](https://ioangheraszim.github.io/AniNet/)
+- Live Site URL: [AniNet Live](https://ioangheraszim.github.io/AniNet)
 
 ### The challenge
 
