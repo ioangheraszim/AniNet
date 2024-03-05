@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import { AnimeContext } from '../Context/AnimeContext';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -6,10 +6,14 @@ import { Link } from 'react-router-dom';
 
 function Bookmark() {
   const { bookmarkedAnimes, removeBookmarkAnime } = useContext(AnimeContext);
-
+  
   // Create a state object to store the watched status for each anime
   const [watchedStatus, setWatchedStatus] = useState({});
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+  
   // Function to toggle the watched status for a specific anime
   const toggleWatched = (mal_id) => {
     setWatchedStatus((prevState) => ({
