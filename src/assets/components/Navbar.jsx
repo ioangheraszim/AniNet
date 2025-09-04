@@ -1,7 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilm, faHouse, faMagnifyingGlass, faTv, faBars, faXmark, faBookmark } from '@fortawesome/free-solid-svg-icons'
+import {
+  faFilm,
+  faHouse,
+  faMagnifyingGlass,
+  faTv,
+  faBars,
+  faXmark,
+  faBookmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { AnimeContext } from "./Context/AnimeContext";
 
 function Navbar() {
@@ -13,7 +21,7 @@ function Navbar() {
   const [toggleNav, setToggleNav] = useState(false);
   const [toggleSearch, setToggleSearch] = useState(false);
 
-  // input 
+  // input
   const [inputValue, setInputValue] = useState("");
 
   // locations
@@ -21,24 +29,24 @@ function Navbar() {
   const navigate = useNavigate();
 
   const handleNav = () => {
-    setToggleNav(!toggleNav)
-  }
+    setToggleNav(!toggleNav);
+  };
 
   const handleSearch = () => {
-    setToggleSearch(!toggleSearch)
-  }
+    setToggleSearch(!toggleSearch);
+  };
 
   useEffect(() => {
-    setToggleNav(false)
-  }, [location.pathname])
+    setToggleNav(false);
+  }, [location.pathname]);
 
   const handleSearchClick = (e) => {
     e.preventDefault();
     if (inputValue.trim() !== "") {
       setSearchInput(inputValue);
       navigate("/search");
-      setInputValue("")
-    } 
+      setInputValue("");
+    }
     setToggleSearch(!toggleSearch);
   };
 
@@ -46,36 +54,106 @@ function Navbar() {
     <header className="bg-opacity-80 backdrop-blur-lg bg-accent font-semibold z-10 sticky top-0">
       <nav className="p-4">
         <div className="container transition-all duration-300 mx-auto flex items-center justify-between">
-          <Link to="/" className="text-3xl font-bold text-white" >Ani<span className="text-cool">Net</span></Link>
-          <ul className={`${toggleNav ? "flex flex-col absolute -top-5 right-0 rounded-br-lg rounded-bl-lg justify-around items-center h-[32rem] bg-opacity-80 backdrop-blur-lg bg-accent font-semibold md:hidden transition-all duration-300 w-20 z-10" : "overflow-hidden h-0 p-0 m-0 z-10"} md:h-14 md:flex md:transition-all md:duration-300 space-x-4 md:items-center md:justify-center md:flex-grow`} style={{ zIndex: 1090 }}>
-            <li><button aria-label="toggle navbar" className={`${toggleNav ? "" : "hidden"} hover-bg-cool px-4 py-2 rounded`} onClick={handleNav}><FontAwesomeIcon icon={faXmark} /></button></li>
-            <li><Link to="/" aria-label="Home" className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"><FontAwesomeIcon icon={faHouse} /></Link></li>
-            <li><Link to="/movies" aria-label="Movies" className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"><FontAwesomeIcon icon={faTv} /></Link></li>
-            <li><Link to="/series" aria-label="Series" className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"><FontAwesomeIcon icon={faFilm} /></Link></li>
-            <li><Link to="/bookmark" aria-label="Bookmark" className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"><FontAwesomeIcon icon={faBookmark} /></Link></li>
+          <Link to="/" className="text-3xl font-bold text-white">
+            Ani<span className="text-cool">Net</span>
+          </Link>
+          <ul
+            className={`${
+              toggleNav
+                ? "flex flex-col absolute -top-5 right-0 rounded-br-lg rounded-bl-lg justify-around items-center h-[32rem] bg-opacity-80 backdrop-blur-lg bg-accent font-semibold md:hidden transition-all duration-300 w-20 z-10"
+                : "overflow-hidden h-0 p-0 m-0 z-10"
+            } md:h-14 md:flex md:transition-all md:duration-300 space-x-4 md:items-center md:justify-center md:flex-grow`}
+            style={{ zIndex: 1090 }}
+          >
+            <li>
+              <button
+                aria-label="toggle navbar"
+                className={`${
+                  toggleNav ? "" : "hidden"
+                } hover-bg-cool px-4 py-2 rounded`}
+                onClick={handleNav}
+              >
+                <FontAwesomeIcon icon={faXmark} />
+              </button>
+            </li>
+            <li>
+              <Link
+                to="/"
+                aria-label="Home"
+                className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"
+              >
+                <FontAwesomeIcon icon={faHouse} />
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/movies"
+                aria-label="Movies"
+                className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"
+              >
+                <FontAwesomeIcon icon={faTv} />
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/series"
+                aria-label="Series"
+                className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"
+              >
+                <FontAwesomeIcon icon={faFilm} />
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/bookmark"
+                aria-label="Bookmark"
+                className="hover-bg-cool bg-opacity-40 p-4 mr-3 rounded"
+              >
+                <FontAwesomeIcon icon={faBookmark} />
+              </Link>
+            </li>
           </ul>
           <div className="flex items-center space-x-4">
-            <button onClick={handleSearch} aria-label="search" className="bg-white bg-opacity-40 rounded p-2 mr-7 md:mr-0"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-            <button onClick={handleNav} aria-label="bars" className="md:hidden bg-white bg-opacity-40 rounded p-2">{toggleNav ? <></> : <FontAwesomeIcon icon={faBars} />}</button>
+            <button
+              onClick={handleSearch}
+              aria-label="search"
+              className="bg-white bg-opacity-40 rounded p-2 mr-7 md:mr-0"
+            >
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
+            <button
+              onClick={handleNav}
+              aria-label="bars"
+              className="md:hidden bg-white bg-opacity-40 rounded p-2"
+            >
+              {toggleNav ? <></> : <FontAwesomeIcon icon={faBars} />}
+            </button>
           </div>
         </div>
-        <form onSubmit={handleSearchClick}
-          className={`${toggleSearch ? "h-10 mt-5" : "h-0"} container mx-auto overflow-hidden transition-all duration-300 flex justify-center items-center`}>
+        <form
+          onSubmit={handleSearchClick}
+          className={`${
+            toggleSearch ? "h-10 mt-5" : "h-0"
+          } container mx-auto overflow-hidden transition-all duration-300 flex justify-center items-center`}
+        >
           <input
             value={inputValue} // Set input value from state
             onChange={(e) => setInputValue(e.target.value)} // Update state, not the context
             className="bg-gen text-cool border-none outline-none p-2 rounded-lg w-full transition-all duration-200 h-10 overflow-hidden"
             type="text"
             placeholder="Search..."
+          ></input>
+          <button
+            aria-label="search button"
+            type="submit"
+            className="ml-5 px-3 text-xl"
           >
-          </input>
-          <button aria-label="search button" type="submit" className="ml-5 px-3 text-xl">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
         </form>
       </nav>
     </header>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

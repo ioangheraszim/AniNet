@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import CardComponent from "./CardComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -6,10 +6,10 @@ import { AnimeContext } from "../Context/AnimeContext";
 import { Link } from "react-router-dom";
 
 function LatestAnime() {
-  const { currentAnime } = useContext(AnimeContext)
+  const { currentAnime } = useContext(AnimeContext);
 
   const currentData = currentAnime.data;
-  
+
   if (!currentData) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -22,7 +22,7 @@ function LatestAnime() {
 
   return (
     <section className="container mx-auto">
-       <div className=" md:flex justify-between items-center px-2 m-3">
+      <div className=" md:flex justify-between items-center px-2 m-3">
         <h1 className="border-l-4 border-cool pl-5 font-oswald uppercase tracking-widest font-bold text-xl">
           Latest Anime
         </h1>

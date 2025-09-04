@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AnimeContext } from "../Context/AnimeContext";
 import CardComponent from "../Sections/CardComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

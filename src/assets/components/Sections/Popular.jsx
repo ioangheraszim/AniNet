@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import CardComponent from "./CardComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -6,9 +6,7 @@ import { AnimeContext } from "../Context/AnimeContext";
 import { Link } from "react-router-dom";
 
 function Popular() {
-
   const { topAnime } = useContext(AnimeContext);
-
 
   const topAnimeData = topAnime.data;
   if (!topAnimeData) {
@@ -20,7 +18,7 @@ function Popular() {
   }
 
   const slicedTop = topAnimeData.slice(0, 12);
-  
+
   return (
     <section className="container mx-auto">
       <div className="container md:flex justify-between items-center pr-1 pl-1 m-3">

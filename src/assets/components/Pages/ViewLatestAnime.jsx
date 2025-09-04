@@ -1,31 +1,34 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AnimeContext } from "../Context/AnimeContext";
 import CardComponent from "../Sections/CardComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeftLong, faArrowRightLong } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowLeftLong,
+  faArrowRightLong,
+} from "@fortawesome/free-solid-svg-icons";
 
 function ViewLatestAnime() {
   const { currentAnime, fetchLatestAnime } = useContext(AnimeContext);
 
   const currentData = currentAnime.data;
   const [currentPage, setCurrentPage] = useState(1);
-  
-  const incrementPage = () => {
-      if (currentPage < currentAnime.pagination.last_visible_page) {
-          setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
-        }
-    };
-    
-    const decrementPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage((prevCurrentPage) => prevCurrentPage - 1);
-        }
-    };
 
-    useEffect(() => {
-        fetchLatestAnime(currentPage);
-    }, [currentPage]);
-    
+  const incrementPage = () => {
+    if (currentPage < currentAnime.pagination.last_visible_page) {
+      setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+    }
+  };
+
+  const decrementPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevCurrentPage) => prevCurrentPage - 1);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestAnime(currentPage);
+  }, [currentPage]);
+
   if (!currentData) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -51,12 +54,36 @@ function ViewLatestAnime() {
         ))}
       </div>
       <div className="container mx-auto mt-10 w-full flex items-center justify-center border-2 border-accent rounded-lg">
-        <button aria-label="previous page" onClick={decrementPage} className="p-3 px-5 bg-accent hover:bg-gen rounded mr-auto">
-          <FontAwesomeIcon icon={faArrowLeftLong}/>
+        <button
+          aria-label="previous page"
+          onClick={decrementPage}
+          className="p-3 px-5 bg-accent hover:bg-gen rounded mr-auto"
+        >
+          <FontAwesomeIcon icon={faArrowLeftLong} />
         </button>
-        <button aria-label={`page number ${decrementPage}`} onClick={decrementPage} className={`${currentPage === 1 ? "hidden" : ""} mx-auto bg-accent hover:bg-gen py-3 px-5`}>{currentPage === 1 ? "" : currentPage - 1}</button>
+        <button
+          aria-label={`page number ${decrementPage}`}
+          onClick={decrementPage}
+          className={`${
+            currentPage === 1 ? "hidden" : ""
+          } mx-auto bg-accent hover:bg-gen py-3 px-5`}
+        >
+          {currentPage === 1 ? "" : currentPage - 1}
+        </button>
         <p className="mx-auto bg-secondary px-5 py-2 text-2xl">{currentPage}</p>
-        <button aria-label={`page number ${incrementPage}`} onClick={incrementPage} className={`${currentPage >= currentAnime.pagination.last_visible_page ? "hidden" : "mx-auto bg-accent hover:bg-gen py-3 px-5"}`}>{currentPage === currentAnime.pagination.last_visible_page ? "" : currentPage + 1}</button>
+        <button
+          aria-label={`page number ${incrementPage}`}
+          onClick={incrementPage}
+          className={`${
+            currentPage >= currentAnime.pagination.last_visible_page
+              ? "hidden"
+              : "mx-auto bg-accent hover:bg-gen py-3 px-5"
+          }`}
+        >
+          {currentPage === currentAnime.pagination.last_visible_page
+            ? ""
+            : currentPage + 1}
+        </button>
         <button
           aria-label="next page"
           onClick={incrementPage}
